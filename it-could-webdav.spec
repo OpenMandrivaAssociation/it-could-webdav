@@ -35,7 +35,7 @@
 Summary:        WebDAV Servlet
 Name:           it-could-webdav
 Version:        0.4
-Release:        %mkrel 2.0.4
+Release:        %mkrel 2.0.5
 Epoch:          0
 License:        Apache License 2.0
 URL:            http://could.it/main/a-simple-approach-to-webdav.html
