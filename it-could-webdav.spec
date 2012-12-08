@@ -77,35 +77,35 @@ export CLASSPATH=$(build-classpath servletapi5)
 %{ant}
 
 %install
-rm -rf %{buildroot}
+rm -rf $RPM_BUILD_ROOT
 
 # jars
-mkdir -p %{buildroot}%{_javadir}
+mkdir -p $RPM_BUILD_ROOT%{_javadir}
 
 install -m 644 webdav-%{version}.jar \
-  %{buildroot}%{_javadir}/%{name}-%{version}.jar
-(cd %{buildroot}%{_javadir} && for jar in *-%{version}.jar; do ln -sf ${jar} `echo $jar| sed "s|-%{version}||g"`; done)
+  $RPM_BUILD_ROOT%{_javadir}/%{name}-%{version}.jar
+(cd $RPM_BUILD_ROOT%{_javadir} && for jar in *-%{version}.jar; do ln -sf ${jar} `echo $jar| sed "s|-%{version}||g"`; done)
 
 #poms
 %add_to_maven_depmap it.could webdav %{version} JPP/ it-could-webdav
-install -d -m 755 %{buildroot}%{_datadir}/maven2/poms
+install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/maven2/poms
 install -pm 644 %{SOURCE2} \
-    %{buildroot}%{_datadir}/maven2/poms/JPP-it-could-webdav.pom
+    $RPM_BUILD_ROOT%{_datadir}/maven2/poms/JPP-it-could-webdav.pom
 
 # javadoc
-mkdir -p %{buildroot}%{_javadocdir}/%{name}-%{version}
-cp -pr doc/* %{buildroot}%{_javadocdir}/%{name}-%{version}
-ln -s %{name}-%{version} %{buildroot}%{_javadocdir}/%{name}
+mkdir -p $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
+cp -pr doc/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
+ln -s %{name}-%{version} $RPM_BUILD_ROOT%{_javadocdir}/%{name}
 
-mkdir -p %{buildroot}%{_docdir}/%{name}-%{version}
-cp -p LICENSE.TXT %{buildroot}%{_docdir}/%{name}-%{version}
+mkdir -p $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}
+cp -p LICENSE.TXT $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}
 
 %if %{gcj_support}
 %{_bindir}/aot-compile-rpm
 %endif
 
 %clean
-rm -rf %{buildroot}
+rm -rf $RPM_BUILD_ROOT
 
 %post
 %update_maven_depmap
@@ -135,3 +135,24 @@ rm -rf %{buildroot}
 %defattr(0644,root,root,0755)
 %{_javadocdir}/%{name}-%{version}
 %{_javadocdir}/%{name}
+
+
+%changelog
+* Fri Dec 03 2010 Oden Eriksson <oeriksson@mandriva.com> 0:0.4-2.0.4mdv2011.0
++ Revision: 605988
+- rebuild
+
+* Wed Mar 17 2010 Oden Eriksson <oeriksson@mandriva.com> 0:0.4-2.0.3mdv2010.1
++ Revision: 522924
+- rebuilt for 2010.1
+
+* Tue Sep 01 2009 Christophe Fergeau <cfergeau@mandriva.com> 0:0.4-2.0.2mdv2010.0
++ Revision: 423683
+- rebuild
+
+* Fri Jan 11 2008 Alexander Kurtakov <akurtakov@mandriva.org> 0:0.4-2.0.1mdv2008.1
++ Revision: 147945
+- bump release
+- import it-could-webdav
+
+
