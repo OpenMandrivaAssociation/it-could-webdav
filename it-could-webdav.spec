@@ -34,12 +34,12 @@
 
 Summary:        WebDAV Servlet
 Name:           it-could-webdav
-Version:        0.4
-Release:        %mkrel 2.0.5
 Epoch:          0
+Version:        0.4
+Release:        3
 License:        Apache License 2.0
-URL:            http://could.it/main/a-simple-approach-to-webdav.html
 Group:          Development/Java
+Url:            http://could.it/main/a-simple-approach-to-webdav.html
 Source0:        http://could.it/main/a-simple-approach-to-webdav.data/webdav-0.4.zip
 Source1:        it-could-webdav-LICENSE.TXT
 Source2:        webdav-0.4.pom
@@ -52,7 +52,6 @@ Requires:       servletapi5
 %if ! %{gcj_support}
 BuildArch:      noarch
 %endif
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 %if %{gcj_support}
 BuildRequires:    java-gcj-compat-devel
 %endif
@@ -77,35 +76,30 @@ export CLASSPATH=$(build-classpath servletapi5)
 %{ant}
 
 %install
-rm -rf $RPM_BUILD_ROOT
-
 # jars
-mkdir -p $RPM_BUILD_ROOT%{_javadir}
+mkdir -p %{buildroot}%{_javadir}
 
 install -m 644 webdav-%{version}.jar \
-  $RPM_BUILD_ROOT%{_javadir}/%{name}-%{version}.jar
-(cd $RPM_BUILD_ROOT%{_javadir} && for jar in *-%{version}.jar; do ln -sf ${jar} `echo $jar| sed "s|-%{version}||g"`; done)
+  %{buildroot}%{_javadir}/%{name}-%{version}.jar
+(cd %{buildroot}%{_javadir} && for jar in *-%{version}.jar; do ln -sf ${jar} `echo $jar| sed "s|-%{version}||g"`; done)
 
 #poms
 %add_to_maven_depmap it.could webdav %{version} JPP/ it-could-webdav
-install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/maven2/poms
+install -d -m 755 %{buildroot}%{_datadir}/maven2/poms
 install -pm 644 %{SOURCE2} \
-    $RPM_BUILD_ROOT%{_datadir}/maven2/poms/JPP-it-could-webdav.pom
+    %{buildroot}%{_datadir}/maven2/poms/JPP-it-could-webdav.pom
 
 # javadoc
-mkdir -p $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
-cp -pr doc/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
-ln -s %{name}-%{version} $RPM_BUILD_ROOT%{_javadocdir}/%{name}
+mkdir -p %{buildroot}%{_javadocdir}/%{name}-%{version}
+cp -pr doc/* %{buildroot}%{_javadocdir}/%{name}-%{version}
+ln -s %{name}-%{version} %{buildroot}%{_javadocdir}/%{name}
 
-mkdir -p $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}
-cp -p LICENSE.TXT $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}
+mkdir -p %{buildroot}%{_docdir}/%{name}-%{version}
+cp -p LICENSE.TXT %{buildroot}%{_docdir}/%{name}-%{version}
 
 %if %{gcj_support}
 %{_bindir}/aot-compile-rpm
 %endif
-
-%clean
-rm -rf $RPM_BUILD_ROOT
 
 %post
 %update_maven_depmap
@@ -120,7 +114,6 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %files
-%defattr(0644,root,root,0755)
 %{_javadir}/%{name}.jar
 %{_javadir}/%{name}-%{version}.jar
 %{_datadir}/maven2/poms/*
@@ -132,27 +125,6 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %files javadoc
-%defattr(0644,root,root,0755)
 %{_javadocdir}/%{name}-%{version}
 %{_javadocdir}/%{name}
-
-
-%changelog
-* Fri Dec 03 2010 Oden Eriksson <oeriksson@mandriva.com> 0:0.4-2.0.4mdv2011.0
-+ Revision: 605988
-- rebuild
-
-* Wed Mar 17 2010 Oden Eriksson <oeriksson@mandriva.com> 0:0.4-2.0.3mdv2010.1
-+ Revision: 522924
-- rebuilt for 2010.1
-
-* Tue Sep 01 2009 Christophe Fergeau <cfergeau@mandriva.com> 0:0.4-2.0.2mdv2010.0
-+ Revision: 423683
-- rebuild
-
-* Fri Jan 11 2008 Alexander Kurtakov <akurtakov@mandriva.org> 0:0.4-2.0.1mdv2008.1
-+ Revision: 147945
-- bump release
-- import it-could-webdav
-
 
