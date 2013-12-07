@@ -36,7 +36,7 @@ Summary:        WebDAV Servlet
 Name:           it-could-webdav
 Epoch:          0
 Version:        0.4
-Release:        6
+Release:        7
 License:        Apache License 2.0
 Group:          Development/Java
 Url:            http://could.it/main/a-simple-approach-to-webdav.html
