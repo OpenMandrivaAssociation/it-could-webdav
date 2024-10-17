@@ -39,7 +39,7 @@ Version:        0.4
 Release:        10
 License:        Apache License 2.0
 Group:          Development/Java
-Url:            http://could.it/main/a-simple-approach-to-webdav.html
+Url:            https://could.it/main/a-simple-approach-to-webdav.html
 Source0:        http://could.it/main/a-simple-approach-to-webdav.data/webdav-0.4.zip
 Source1:        it-could-webdav-LICENSE.TXT
 Source2:        webdav-0.4.pom
